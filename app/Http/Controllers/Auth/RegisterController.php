@@ -2,23 +2,25 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests\User\StoreRegisterRequest;
-use App\Providers\RouteServiceProvider;
 use App\Models\User;
 use App\Services\UserService;
-use Illuminate\Foundation\Auth\RegistersUsers;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use App\Providers\RouteServiceProvider;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Foundation\Auth\RegistersUsers;
+use App\Http\Requests\User\StoreRegisterRequest;
 
 class RegisterController extends Controller
 {
-    protected $redirectTo = RouteServiceProvider::HOME;
-
-
     public function store(StoreRegisterRequest $request)
     {
-        return UserService::create($request);
+        $user = UserService::create($request);
+        Auth::login($user);
+        if (auth()->check()) {
+            return redirect()->to("/");
+        }
     }
 
     public function showRegistrationForm()
