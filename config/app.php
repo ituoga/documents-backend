@@ -209,7 +209,7 @@ return [
     */
 
     'aliases' => Facade::defaultAliases()->merge([
-        // 'ExampleClass' => App\Example\ExampleClass::class,
+        'HtmlToString' => App\Support\HtmlToString::class,
     ])->toArray(),
 
 ];
