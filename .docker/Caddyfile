@@ -1,0 +1,33 @@
+{
+    auto_https disable_redirects
+    log {
+       level DEBUG
+    }
+}
+
+
+http://phpmyadmin.internal {
+    reverse_proxy phpmyadmin:80
+}
+
+http://minio.internal {
+    reverse_proxy minio:9001
+}
+
+http://minio.internal:9000 {
+    reverse_proxy minio:9000
+}
+
+http://meilisearch.internal {
+    reverse_proxy meilisearch:7700
+}
+
+http:// https:// {
+    reverse_proxy web:80 web:80 web:80 {
+        fail_duration 100ms
+        max_fails 1
+        lb_try_interval 100ms
+        lb_try_duration 100ms
+        lb_policy round_robin
+    }
+}
