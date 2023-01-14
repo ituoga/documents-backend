@@ -3,7 +3,7 @@
 result=${PWD##*/}          # to assign to a variable
 result=${result:-/}        # to correct for the case where PWD=/
 # realdir="${result}_default"
-realdir="documents-backend"
+realdir="documents-backend_default"
 
 compose="docker-compose -p documents-backend"
 
@@ -64,6 +64,11 @@ f_logs() {
 f_unit() {
     $compose exec -w /var/www web ./vendor/bin/phpunit  --process-isolation $@
 }
+f_minio() {
+    docker run --rm -it -v mc-data:/root/.mc --network $1 --link minio minio/mc alias set minio http://minio:9000 root toor12345
+    docker run --rm -it -v mc-data:/root/.mc --network $1 --link minio minio/mc mb minio/general
+    docker run --rm -it -v mc-data:/root/.mc --network $1 --link minio minio/mc policy set public minio/general
+}
 
 case "$1" in
     pull)
@@ -104,6 +109,9 @@ case "$1" in
         ;;
     unit)
         f_unit ${@:2}
+        ;;
+    minio-init)
+        f_minio $realdir
         ;;
     *)
         echo "Usage: $0 {up|down|migrate|minio-init|init|varnish-reload}"
