@@ -68,11 +68,11 @@
                     </svg> Dashboard</a>
             </li> --}}
             @if (auth()->id())
-            <li class="nav-item"><a class="nav-link" href="">
+            <li class="nav-item"><a class="nav-link" href="{{route('files.index')}}">
                     <svg class="nav-icon">
                         <use xlink:href="/images/vendors/@coreui/icons/svg/free.svg#cil-speedometer">
                         </use>
-                    </svg>{{__('users')}}</a>
+                    </svg>{{__('files')}}</a>
             </li>
 
 
