@@ -13,7 +13,7 @@
                     title="{{__('document_direction')}}" />
 
                 <x-form.file id="file" name="file" value="{{old('file')}}" title="{{__('file')}}"></x-form.file>
-                <x-form.submit>Add</x-form.submit>
+                <x-form.submit>{{__('add')}}</x-form.submit>
             </x-form>
 
         </x-structure.card.body>

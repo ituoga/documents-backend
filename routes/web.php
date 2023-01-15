@@ -6,6 +6,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\FilesController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\DownloadMediaController;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,4 +29,5 @@ Route::post("/register", [RegisterController::class, "store"])->name("register")
 Route::group(['middleware' => 'auth'], function () {
     Route::get("/", [HomeController::class, "index"])->name("dashboard");
     Route::resource("files", FilesController::class);
+    Route::get("/download/{id}", [DownloadMediaController::class, "download"])->name("download");
 });

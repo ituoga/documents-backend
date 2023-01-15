@@ -10,12 +10,18 @@ class FilesController extends Controller
 {
     public function index()
     {
-        return view('files.index');
+        $files = auth()->user()->files()->latest()->paginate(10);
+        return view('files.index', compact('files'));
     }
 
     public function create()
     {
         return view('files.create');
+    }
+
+    public function edit(File $file)
+    {
+        return view('files.edit', compact('file'));
     }
 
     public function store(StoreFileRequest $request)
