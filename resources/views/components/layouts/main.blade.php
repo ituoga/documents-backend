@@ -74,7 +74,12 @@
                         </use>
                     </svg>{{__('files')}}</a>
             </li>
-
+            <li class="nav-item"><a class="nav-link" href="{{route('users.index')}}">
+                    <svg class="nav-icon">
+                        <use xlink:href="/images/vendors/@coreui/icons/svg/free.svg#cil-speedometer">
+                        </use>
+                    </svg>{{__('users')}}</a>
+            </li>
 
             @endif
 

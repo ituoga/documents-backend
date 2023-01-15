@@ -2,15 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreFileRequest;
 use App\Models\File;
+use App\Models\User;
 use Illuminate\Http\Request;
+use App\Http\Requests\StoreFileRequest;
 
 class FilesController extends Controller
 {
     public function index()
     {
-        $files = auth()->user()->files()->latest()->paginate(10);
+        $user = User::where('id', auth()->user()->id)->first();
+        $files = $user->files()->latest()->paginate(10);
         return view('files.index', compact('files'));
     }
 
