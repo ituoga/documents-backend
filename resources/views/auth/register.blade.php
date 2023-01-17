@@ -19,6 +19,8 @@
                                     type="password" />
 
                                 <x-form.submit>{{__('create_account')}}</x-form.submit>
+
+                                <p>{{__('already_user?')}} <a href="{{route('login')}}">{{__('sign_in')}}</a></p>
                             </x-form>
 
                         </div>
