@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\FileResource;
 use App\Http\Requests\StoreFileRequest;
+use App\Http\Requests\UpdateFileRequest;
 
 class FilesController extends Controller
 {
@@ -28,5 +29,28 @@ class FilesController extends Controller
         }
 
         return new FileResource($file);
+    }
+
+    public function update(UpdateFileRequest $request, File $file)
+    {
+        $file->update($request->validated());
+
+        if ($request->hasFile('file') && $request->file('file')->isValid()) {
+            $file->addMediaFromRequest('file')->toMediaCollection('files', 'minio');
+        }
+
+        return new FileResource($file);
+    }
+
+    public function show(File $file)
+    {
+        return new FileResource($file);
+    }
+
+    public function destroy(File $file)
+    {
+        $file->delete();
+
+        return response()->json(['message' => __('file_deleted_successfully')]);
     }
 }
