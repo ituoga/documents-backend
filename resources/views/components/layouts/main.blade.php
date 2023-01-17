@@ -20,11 +20,11 @@
     {{--
 
     <link href="/images/css/style.css" rel="stylesheet"> --}}
-    <link href="{{ asset('css/app.css?1') }}" rel="stylesheet">
+    <link href="{{ asset('css/app.css?8') }}" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"
         integrity="sha512-aVKKRRi/Q/YV+4mjoKBsE4x3H+BkegoM/em46NNlCqNTmUYADjBbeNefNxYV7giUp0VxICtqdrbqU7iVaeZNXA=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="{{ asset('js/app.js?2') }}"></script>
+    <script src="{{ asset('js/app.js?8') }}"></script>
     <style>
         .required:after {
             content: '*';

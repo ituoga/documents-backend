@@ -9,7 +9,6 @@
         <x-structure.card.header>
             {{__('files')}}
         </x-structure.card.header>
-
         <x-structure.card.body>
             <div class="col-sm-3">
                 @forelse($users as $user)
