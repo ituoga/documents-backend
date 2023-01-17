@@ -6,6 +6,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\FilesController;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\SharedFilesController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\DownloadMediaController;
 
@@ -32,4 +33,5 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource("files", FilesController::class);
     Route::resource("users", UsersController::class);
     Route::get("/download/{id}", [DownloadMediaController::class, "download"])->name("download");
+    Route::resource("shared_files", SharedFilesController::class);
 });

@@ -72,7 +72,13 @@
                     <svg class="nav-icon">
                         <use xlink:href="/images/vendors/@coreui/icons/svg/free.svg#cil-speedometer">
                         </use>
-                    </svg>{{__('files')}}</a>
+                    </svg>{{__('my_files')}}</a>
+            </li>
+            <li class="nav-item"><a class="nav-link" href="{{route('shared_files.index')}}">
+                    <svg class="nav-icon">
+                        <use xlink:href="/images/vendors/@coreui/icons/svg/free.svg#cil-speedometer">
+                        </use>
+                    </svg>{{__('shared_files')}}</a>
             </li>
             <li class="nav-item"><a class="nav-link" href="{{route('users.index')}}">
                     <svg class="nav-icon">

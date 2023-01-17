@@ -55,4 +55,9 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(User::class, 'many_users', 'user_id', 'share_to_user_id');
     }
+
+    public function shares(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'many_users', 'share_to_user_id', 'user_id');
+    }
 }
