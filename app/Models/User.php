@@ -60,4 +60,10 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(User::class, 'many_users', 'share_to_user_id', 'user_id');
     }
+
+    public function getGravatarAttribute()
+    {
+        $hash = md5(strtolower(trim($this->attributes['email'])));
+        return "http://www.gravatar.com/avatar/$hash";
+    }
 }

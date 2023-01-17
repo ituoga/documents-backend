@@ -109,12 +109,12 @@
 
                     <li class="nav-item dropdown"><a class="nav-link py-0" data-coreui-toggle="dropdown" href="#"
                             role="button" aria-haspopup="true" aria-expanded="false">
-                            <div class="avatar avatar-md"><img class="avatar-img" src="{{auth()->user()?->gravatar}}"
+                            <div class="avatar avatar-md"><img class="avatar-img" src="{{auth()->user()->gravatar}}"
                                     alt=""></div>
                         </a>
                         <div class="dropdown-menu dropdown-menu-end pt-0">
                             <div class="dropdown-header bg-light py-2">
-                                <div class="fw-semibold">{{__('information')}}</div>
+                                <div class="fw-semibold">{{auth()->user()?->name}} {{__('information')}}</div>
                             </div>
                             {{-- <a class="dropdown-item" href="{{route('profile.index')}}">
                                 <svg class="icon me-2">
