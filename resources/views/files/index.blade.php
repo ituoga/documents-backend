@@ -18,7 +18,8 @@
                     <x-structure.table.td>{{ $file->group_name }}</x-structure.table.td>
                     <x-structure.table.td>{{ $file->document_direction }}</x-structure.table.td>
                     <x-structure.table.td>
-                        <a class="btn btn-sm btn-secondary" href="{{route('download', ['id' => $file])}}">download</a>
+                        <a class="btn btn-sm btn-secondary"
+                            href="{{route('download', ['id' => $file])}}">{{__('download')}}</a>
                     </x-structure.table.td>
                     <x-structure.table.td>
                         <x-structure.actions>

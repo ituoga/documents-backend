@@ -1,6 +1,5 @@
 @props(['headers'])
-<table {{ $attributes->merge(['class' => 'table table-hover
-    table-responsive-stack mt-3', 'id' => 't1']) }}>
+<table {{ $attributes->merge(['class' => 'table table-hover table-responsive-stack mt-3', 'id' => 't1']) }}>
     @if(!empty($headers))
     <thead>
         <tr>
