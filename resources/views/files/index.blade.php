@@ -11,7 +11,7 @@
         </x-structure.card.header>
 
         <x-structure.card.body>
-            <x-structure.table :headers="['#', 'group_name', 'document_direction', 'download', '']">
+            <x-structure.table :headers="['#', __('group_name'), __('document_direction'), __('download'), '']">
                 @forelse($files as $file)
                 <x-structure.table.tr>
                     <x-structure.table.td>{{ $file->id }}</x-structure.table.td>
