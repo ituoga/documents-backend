@@ -4,12 +4,13 @@ namespace App\Http\Controllers\Api;
 
 use App\Models\User;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use App\Http\Requests\Api\Auth\StoreLoginRequest;
-use App\Http\Requests\Api\Auth\StoreRegisterRequest;
 use App\Services\UserService;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use App\Http\Requests\Api\Auth\StoreLoginRequest;
+use App\Http\Requests\Api\Auth\StoreRegisterRequest;
 
 class AuthController extends Controller
 {
@@ -33,7 +34,7 @@ class AuthController extends Controller
 
     public function login(StoreLoginRequest $request)
     {
-        if (!auth()->attempt(request()->only("email", "password"))) {
+        if (!$token = auth('api')->attempt(request()->only("email", "password"))) {
             return response()->json([
                 'status' => 'error',
                 'message' => __('invalid_credentials')
@@ -45,10 +46,35 @@ class AuthController extends Controller
         return response()->json([
             'status' => 'success',
             'message' => __('user_logged_in_successfully'),
-            'data' => [
-                'user' => $user,
-                'token' => $user->createToken('auth_token')->plainTextToken
+            'user' => $user,
+            'auth' => [
+                'access_token' => $token,
+                'token_type' => 'bearer',
+                'expires_in' => auth('api')->factory()->getTTL() * 60
             ]
         ], 200);
+    }
+
+    public function logout()
+    {
+        Auth::logout();
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Successfully logged out',
+        ]);
+    }
+
+    public function refresh()
+    {
+        return $this->respondWithToken(auth('api')->refresh());
+    }
+
+    protected function respondWithToken($token)
+    {
+        return response()->json([
+            'access_token' => $token,
+            'token_type' => 'bearer',
+            'expires_in' => auth('api')->factory()->getTTL() * 60
+        ]);
     }
 }

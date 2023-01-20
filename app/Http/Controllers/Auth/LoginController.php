@@ -12,7 +12,7 @@ class LoginController extends Controller
     public function store()
     {
         $credentials = request()->only("email", "password");
-        if (Auth::attempt($credentials)) {
+        if (auth('web')->attempt($credentials)) {
             return redirect()->to("/");
         } else {
             return redirect()->back()->with("error", __('invalid_credentials'));
