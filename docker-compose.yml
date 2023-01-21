@@ -50,7 +50,7 @@ services:
     image: bitnami/mariadb:latest
     environment:
       - MARIADB_DATABASE=db
-      - MARIADB_ROOT_PASSWORD=toor
+      - MARIADB_ROOT_PASSWORD=password
     volumes:
       - ./import-db:/docker-entrypoint-startdb.d
       - mariadb-data:/bitnami/mariadb
@@ -86,10 +86,6 @@ services:
     image: spiksius/php8.1-apache:latest
     volumes:
       - ./:/var/www/
-      - /var/run/docker.sock:/var/run/docker.sock
-      - ~/.gitconfig:/root/.gitconfig
-      - ~/.docker:/root/.docker
-      - ~/.vscode-server:/root/.vscode-server
       - ./.docker/entrypoint.sh:/entrypoint.sh
     entrypoint: [ '/entrypoint.sh' ]
     environment:
