@@ -24,8 +24,6 @@ f_down() {
 }
 f_migrate() {
     $compose exec web  php ../artisan migrate
-    $compose exec web  php ../artisan load:permissions
-    $compose exec web  php ../artisan load:modules
 }
 f_seed_dev() {
     $compose exec web  php ../artisan db:seed ${@:-DevelopmentSeeder} || \
