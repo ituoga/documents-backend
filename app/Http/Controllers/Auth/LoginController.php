@@ -5,13 +5,14 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Providers\RouteServiceProvider;
+use App\Http\Requests\User\StoreLoginRequest;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
 class LoginController extends Controller
 {
-    public function store()
+    public function store(StoreLoginRequest $request)
     {
-        $credentials = request()->only("email", "password");
+        $credentials = $request->only("email", "password");
         if (auth('web')->attempt($credentials)) {
             return redirect()->to("/");
         } else {
