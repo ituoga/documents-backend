@@ -28,10 +28,11 @@ class FilesController extends Controller
 
     public function store(StoreFileRequest $request)
     {
-        $file = File::create($request->validated());
-
-        if ($request->hasFile('file') && $request->file('file')->isValid()) {
-            $file->addFile($request->file('file'));
+        if ($request->hasFile('files')) {
+            foreach ($request->file('files') as $item) {
+                $file = File::create($request->validated());
+                $file->addFile($item);
+            }
         }
 
         return redirect()->route('files.index')->with('success', __('file_created_successfully'));
