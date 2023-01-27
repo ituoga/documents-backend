@@ -1,119 +1,119 @@
 version: "3.9" # optional since v1.27.0
 services:
-  #   nginx:
-  #     image: nginxproxy/nginx-proxy:latest
-  #     ports:
-  #         - "80:80"
-  #     volumes:
-  #       - /var/run/docker.sock:/tmp/docker.sock:ro
-  #     links:
-  #       - minio
-  #       - phpmyadmin
-  #       - meilisearch
-  caddy:
-    image: caddy:latest
-    volumes:
-      - ./.docker/Caddyfile:/etc/caddy/Caddyfile
-    ports:
-      - "80:80"
-    environment:
-      - VERSION=4
-    links:
-      - minio
-      - phpmyadmin
-      - meilisearch
+    #   nginx:
+    #     image: nginxproxy/nginx-proxy:latest
+    #     ports:
+    #         - "80:80"
+    #     volumes:
+    #       - /var/run/docker.sock:/tmp/docker.sock:ro
+    #     links:
+    #       - minio
+    #       - phpmyadmin
+    #       - meilisearch
+    caddy:
+        image: caddy:latest
+        volumes:
+            - ./.docker/Caddyfile:/etc/caddy/Caddyfile
+        ports:
+            - "80:80"
+        environment:
+            - VERSION=4
+        links:
+            - minio
+            - phpmyadmin
+            - meilisearch
 
-  meilisearch:
-    image: getmeili/meilisearch:latest
-    environment:
-      - MEILI_MASTER_KEY=masterKey
-      - VIRTUAL_HOST=meilisearch.internal
-      - VIRTUAL_PORT=7700
-    volumes:
-      - meilisearch-data:/data.ms
+    meilisearch:
+        image: getmeili/meilisearch:latest
+        environment:
+            - MEILI_MASTER_KEY=masterKey
+            - VIRTUAL_HOST=meilisearch.internal
+            - VIRTUAL_PORT=7700
+        volumes:
+            - meilisearch-data:/data.ms
 
-  minio:
-    image: quay.io/minio/minio
-    environment:
-      - MINIO_ROOT_USER=root
-      - MINIO_ROOT_PASSWORD=toor12345
-      - VIRTUAL_HOST=minio.internal
-      - VIRTUAL_PORT=9001
-    command: server /data --console-address ":9001"
-    volumes:
-      - minio-data:/data
+    minio:
+        image: quay.io/minio/minio
+        environment:
+            - MINIO_ROOT_USER=root
+            - MINIO_ROOT_PASSWORD=toor12345
+            - VIRTUAL_HOST=minio.internal
+            - VIRTUAL_PORT=9001
+        command: server /data --console-address ":9001"
+        volumes:
+            - minio-data:/data
 
-  redis:
-    image: redis
+    redis:
+        image: redis
 
-  db:
-    image: bitnami/mariadb:latest
-    environment:
-      - MARIADB_DATABASE=db
-      - MARIADB_ROOT_PASSWORD=toor
-    volumes:
-      - ./import-db:/docker-entrypoint-startdb.d
-      - mariadb-data:/bitnami/mariadb
+    db:
+        image: bitnami/mariadb:latest
+        environment:
+            - MARIADB_DATABASE=db
+            - MARIADB_ROOT_PASSWORD=toor
+        volumes:
+            - ./import-db:/docker-entrypoint-startdb.d
+            - mariadb-data:/bitnami/mariadb
 
-  testdb:
-    image: bitnami/mariadb:latest
-    environment:
-      - MARIADB_DATABASE=testdb
-      - MARIADB_ROOT_PASSWORD=toor
+    testdb:
+        image: bitnami/mariadb:latest
+        environment:
+            - MARIADB_DATABASE=testdb
+            - MARIADB_ROOT_PASSWORD=toor
 
-  phpmyadmin:
-    image: phpmyadmin/phpmyadmin:latest
-    links:
-      - db:mysql
-    environment:
-      - VIRTUAL_HOST=phpmyadmin.internal
-      - VIRTUAL_PORT=80
+    phpmyadmin:
+        image: phpmyadmin/phpmyadmin:latest
+        links:
+            - db:mysql
+        environment:
+            - VIRTUAL_HOST=phpmyadmin.internal
+            - VIRTUAL_PORT=80
 
-  jobs:
-    image: spiksius/php8.1-apache:latest
-    volumes:
-      - ./:/var/www/
-    entrypoint:
-      [
-        "php",
-        "artisan",
-        "queue:listen",
-        "--tries=3",
-        "--timeout=90"
-      ]
+    jobs:
+        image: spiksius/php8.1-apache:latest
+        volumes:
+            - ./:/var/www/
+        entrypoint:
+            [
+                "php",
+                "artisan",
+                "queue:listen",
+                "--tries=3",
+                "--timeout=90"
+            ]
 
-  web:
-    image: spiksius/php8.1-apache:latest
-    volumes:
-      - ./:/var/www/
-      - /var/run/docker.sock:/var/run/docker.sock
-      - ~/.gitconfig:/root/.gitconfig
-      - ~/.docker:/root/.docker
-      - ~/.vscode-server:/root/.vscode-server
-      - ./.docker/entrypoint.sh:/entrypoint.sh
-    entrypoint: [ '/entrypoint.sh' ]
-    environment:
-      - OCTANE_SERVER=swoole
-      - VERSION=5
-      - VIRTUAL_HOST=localhost,site1.internal
-      - VIRTUAL_PORT=80
-    deploy:
-      mode: replicated
-      replicas: 3
-      endpoint_mode: vip
-      update_config:
-        parallelism: 1
-        delay: 10s
-        order: start-first
-    healthcheck:
-      test: [ "CMD", "curl", "-f", "http://localhost:80 || exit 1" ]
-    links:
-      - redis
-      - minio
-      - db
-      - meilisearch
+    web:
+        image: spiksius/php8.1-apache:latest
+        volumes:
+            - ./:/var/www/
+            - /var/run/docker.sock:/var/run/docker.sock
+            - ~/.gitconfig:/root/.gitconfig
+            - ~/.docker:/root/.docker
+            - ~/.vscode-server:/root/.vscode-server
+            - ./.docker/entrypoint.sh:/entrypoint.sh
+        entrypoint: [ '/entrypoint.sh' ]
+        environment:
+            - OCTANE_SERVER=swoole
+            - VERSION=5
+            - VIRTUAL_HOST=localhost,site1.internal
+            - VIRTUAL_PORT=80
+        deploy:
+            mode: replicated
+            replicas: 3
+            endpoint_mode: vip
+            update_config:
+                parallelism: 1
+                delay: 10s
+                order: start-first
+        healthcheck:
+            test: [ "CMD", "curl", "-f", "http://localhost:80 || exit 1" ]
+        links:
+            - redis
+            - minio
+            - db
+            - meilisearch
 
 volumes:
-  mariadb-data:
-  minio-data:
-  meilisearch-data:
+    mariadb-data:
+    minio-data:
+    meilisearch-data:

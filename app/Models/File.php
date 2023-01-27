@@ -26,4 +26,9 @@ class File extends Model implements HasMedia
         $this->media_id = $media->id;
         $this->update();
     }
+
+    public function image()
+    {
+        return app('url')->assetFrom(config('app.images_url'), $this->getFirstMedia('files')->getPath());
+    }
 }
