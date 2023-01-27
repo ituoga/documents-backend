@@ -21,7 +21,9 @@ http://minio.internal:9000 {
 http://meilisearch.internal {
     reverse_proxy meilisearch:7700
 }
-
+http://images.internal {
+    reverse_proxy minio:9000
+}
 http:// https:// {
     reverse_proxy web:80 web:80 web:80 {
         fail_duration 100ms

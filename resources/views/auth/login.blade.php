@@ -11,6 +11,8 @@
                         <x-form.input id="email" name="email" value="{{ old('email') }}" title="{{__('email')}}" />
                         <x-form.input id="password" name="password" value="{{ old('password') }}"
                             title="{{__('password')}}" type="password" />
+                        <x-form.recaptcha></x-form.recaptcha>
+
 
                         <x-form.submit>{{__('login')}}</x-form.submit>
                     </x-form>

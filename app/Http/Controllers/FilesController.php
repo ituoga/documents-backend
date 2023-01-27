@@ -18,20 +18,23 @@ class FilesController extends Controller
 
     public function create()
     {
-        return view('files.create');
+        $document_directions = config('site.document_directions');
+        return view('files.create', compact('document_directions'));
     }
 
     public function edit(File $file)
     {
-        return view('files.edit', compact('file'));
+        $document_directions = config('site.document_directions');
+        return view('files.edit', compact('file', 'document_directions'));
     }
 
     public function store(StoreFileRequest $request)
     {
-        $file = File::create($request->validated());
-
-        if ($request->hasFile('file') && $request->file('file')->isValid()) {
-            $file->addFile($request->file('file'));
+        if ($request->hasFile('files')) {
+            foreach ($request->file('files') as $item) {
+                $file = File::create($request->validated());
+                $file->addFile($item);
+            }
         }
 
         return redirect()->route('files.index')->with('success', __('file_created_successfully'));

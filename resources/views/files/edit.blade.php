@@ -10,8 +10,8 @@
                 @method('PUT')
                 <x-form.input id="group_name" name="group_name" value="{{$file->group_name}}"
                     title="{{__('group_name')}}" />
-                <x-form.input id="document_direction" name="document_direction" value="{{$file->document_direction}}"
-                    title="{{__('document_direction')}}" />
+                <x-form.select id="document_direction" title="{{__('document_direction')}}" name="document_direction"
+                    :options="$document_directions" :selected="$file->document_direction" />
                 <a class="btn btn-sm btn-secondary" href="{{route('download', ['id' => $file])}}">download</a>
                 <x-form.file id="file" name="file" value="{{old('file')}}" title="{{__('file')}}"></x-form.file>
                 <x-form.submit>{{__('update')}}</x-form.submit>
