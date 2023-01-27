@@ -19,10 +19,15 @@
                 {{__('nobody_shared_files_with_you')}}
                 @endforelse
             </div>
-            <x-structure.table :headers="['#', __('group_name'), __('document_direction'), __('download')]">
+            <x-structure.table :headers="['#', '', __('group_name'), __('document_direction'), __('download')]">
                 @forelse($files as $file)
                 <x-structure.table.tr>
                     <x-structure.table.td>{{ $file->id }}</x-structure.table.td>
+                    <x-structure.table.td>
+                        <a href="{{$file->image()}}" data-lightbox="{{$file->image()}}"><img
+                                data-lightbox="{{$file->image()}}" src="{{$file->image()}}"
+                                data-src="{{$file->image()}}" width="200" height="300" class="img-fluid" /></a>
+                    </x-structure.table.td>
                     <x-structure.table.td>{{ $file->group_name }}</x-structure.table.td>
                     <x-structure.table.td>{{ $file->document_direction }}</x-structure.table.td>
                     <x-structure.table.td>
