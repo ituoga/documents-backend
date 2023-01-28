@@ -18,6 +18,7 @@ services:
       - "80:80"
     environment:
       - VERSION=4
+      - IMAGES_URL=images.internal
     links:
       - minio
       - phpmyadmin
