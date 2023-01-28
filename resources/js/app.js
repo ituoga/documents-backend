@@ -10,6 +10,7 @@ require('perfect-scrollbar');
 
 require('simplebar');
 
+
 function table_responsive() {
     $('.table-responsive-stack').each(function (i) {
         var id = $(this).attr('id');

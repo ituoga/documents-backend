@@ -3,6 +3,7 @@
 namespace App\Http\Requests\User;
 
 use App\Http\Requests\Request;
+use App\Rules\GoogleRecaptcha;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreLoginRequest extends Request
@@ -17,6 +18,8 @@ class StoreLoginRequest extends Request
         return [
             'email' => ['required', 'string', 'email', 'max:255'],
             'password' => ['required', 'string', 'min:8'],
+            'g-recaptcha-response' => ['required', new GoogleRecaptcha()],
+            ['g-recaptcha-response.required', 'The Google reCAPTCHA field is required.'],
         ];
     }
 }

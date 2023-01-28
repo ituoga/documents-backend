@@ -17,6 +17,7 @@
                                 <x-form.input id="password_confirmation" name="password_confirmation"
                                     value="{{ old('password_confirmation') }}" title="{{__('repeat_password')}}"
                                     type="password" />
+                                <x-form.recaptcha></x-form.recaptcha>
 
                                 <x-form.submit>{{__('create_account')}}</x-form.submit>
 
